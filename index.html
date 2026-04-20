@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>VNW-ESP - Quân Đoàn Free Fire | Top Thái Nguyên</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts: Orbitron + Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at 10% 20%, #0a0f1e, #03050b);
+            font-family: 'Poppins', sans-serif;
+            color: #f0f3fa;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            opacity: 0.08;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-pulse {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 50% 30%, rgba(255, 80, 40, 0.1), transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            padding: 0.6rem 1.8rem;
+            border-radius: 100px;
+            border: 1px solid rgba(255, 140, 0, 0.6);
+            box-shadow: 0 0 15px rgba(255, 80, 0, 0.3);
+            margin-bottom: 1.8rem;
+        }
+
+        .badge i {
+            font-size: 2rem;
+            color: #ff9f4a;
+            filter: drop-shadow(0 0 4px #ff6600);
+        }
+
+        .badge span {
+            font-weight: 700;
+            letter-spacing: 2px;
+            font-size: 1rem;
+            background: linear-gradient(135deg, #ffb347, #ff6b00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFD966, #FF8C42, #FF3C00);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(255, 100, 0, 0.3);
+            letter-spacing: 3px;
+        }
+
+        .glow-text {
+            font-size: 1.2rem;
+            color: #cdd9ff;
+            margin-top: 0.75rem;
+            border-top: 1px dashed rgba(255, 140, 0, 0.4);
+            display: inline-block;
+            padding-top: 0.6rem;
+        }
+
+        .card {
+            background: rgba(12, 18, 28, 0.75);
+            backdrop-filter: blur(12px);
+            border-radius: 48px;
+            border: 1px solid rgba(255, 140, 0, 0.5);
+            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 90, 0, 0.2);
+            overflow: hidden;
+            transition: transform 0.2s ease;
+            margin-bottom: 2rem;
+        }
+
+        .card-inner {
+            padding: 2rem;
+        }
+
+        /* ID section nổi bật */
+        .guild-id {
+            background: linear-gradient(145deg, #0b101c, #070b14);
+            border-radius: 2rem;
+            padding: 1.5rem 1.8rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            border: 1px solid #ff8c42a0;
+            box-shadow: inset 0 0 8px rgba(0,0,0,0.5), 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .guild-id .label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 500;
+            color: #ffae70;
+            margin-bottom: 0.5rem;
+        }
+
+        .guild-id .id-number {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.6rem;
+            font-weight: 800;
+            background: linear-gradient(120deg, #FFF6E0, #FFB347);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 4px;
+            text-shadow: 0 0 5px #ff7b2c;
+            word-break: break-word;
+        }
+
+        .copy-id {
+            background: rgba(255, 140, 0, 0.2);
+            border: 1px solid #ff8c42;
+            color: #ffb45e;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 12px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .copy-id:hover {
+            background: #ff8c42;
+            color: #0b0f1a;
+            box-shadow: 0 0 12px #ff8c42;
+        }
+
+        /* stats grid - đã xóa quân số, chỉ giữ lại thành tích + hoạt động */
+        .stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin: 1.8rem 0;
+        }
+
+        .stat-item {
+            flex: 1;
+            min-width: 220px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 28px;
+            padding: 1.2rem 1rem;
+            text-align: center;
+            border: 1px solid rgba(255, 140, 0, 0.3);
+            transition: all 0.2s;
+        }
+
+        .stat-item i {
+            font-size: 2rem;
+            color: #ff914d;
+            margin-bottom: 0.6rem;
+            display: inline-block;
+        }
+
+        .stat-item h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 0.4rem;
+            color: #ffcf9a;
+        }
+
+        .stat-item p {
+            font-size: 0.9rem;
+            color: #b9c7ff;
+        }
+
+        /* nút facebook */
+        .fb-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: linear-gradient(95deg, #1877F2, #0e5ac0);
+            padding: 1rem 2rem;
+            border-radius: 60px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: white;
+            transition: all 0.2s ease;
+            border: none;
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(255,255,200,0.2);
+            width: fit-content;
+            margin: 0.5rem auto 0 auto;
+        }
+
+        .fb-btn i {
+            font-size: 1.8rem;
+        }
+
+        .fb-btn:hover {
+            transform: scale(1.02);
+            background: linear-gradient(95deg, #1b6eda, #0a4c9e);
+            box-shadow: 0 12px 22px rgba(0,0,0,0.4), 0 0 12px #1877f2;
+            gap: 18px;
+        }
+
+        .info-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0,0,0,0.35);
+            border-radius: 40px;
+            padding: 0.9rem 1.8rem;
+            margin-top: 1.5rem;
+        }
+
+        .info-tag {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            background: rgba(255,140,0,0.15);
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+        }
+
+        .info-tag i {
+            color: #ffaa33;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.8rem;
+            margin-top: 3rem;
+            opacity: 0.7;
+            border-top: 1px solid #ff8c4233;
+            padding-top: 1.5rem;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 1rem 1rem 2rem;
+            }
+            h1 {
+                font-size: 2.5rem;
+                letter-spacing: 1px;
+            }
+            .guild-id .id-number {
+                font-size: 1.8rem;
+                letter-spacing: 2px;
+            }
+            .stats {
+                flex-direction: column;
+                align-items: center;
+            }
+            .stat-item {
+                width: 100%;
+            }
+            .fb-btn {
+                font-size: 1rem;
+                padding: 0.8rem 1.5rem;
+            }
+            .card-inner {
+                padding: 1.5rem;
+            }
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+        }
+
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeUp 0.7s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+<div class="bg-overlay"></div>
+<div class="glow-pulse"></div>
+
+<div class="container">
+    <div class="header animate">
+        <div class="badge">
+            <i class="fas fa-skull-crossbones"></i>
+            <span>ELITE SQUADRON</span>
+            <i class="fas fa-fire-flame-curved"></i>
+        </div>
+        <h1>VNW-ESP</h1>
+        <div class="glow-text">
+            <i class="fas fa-gamepad"></i> Quân đoàn Free Fire • Tinh nhuệ & Đoàn kết • Thái Nguyên
+        </div>
+    </div>
+
+    <div class="card animate delay-1">
+        <div class="card-inner">
+            <!-- ID QUÂN ĐOÀN nổi bật -->
+            <div class="guild-id">
+                <div class="label"><i class="fas fa-hashtag"></i> ID QUÂN ĐOÀN</div>
+                <div class="id-number" id="guildIdDisplay">3095952179</div>
+                <button class="copy-id" id="copyIdBtn"><i class="fas fa-copy"></i> Sao chép ID</button>
+                <p style="font-size: 0.75rem; margin-top: 10px; color:#ffb064;">＊ Dùng để tìm kiếm & gia nhập VNW-ESP</p>
+            </div>
+
+            <!-- Giới thiệu ngắn gọn -->
+            <div style="margin-bottom: 1rem; font-style: italic; text-align: center; color: #ffcc99;">
+                <i class="fas fa-shield-heart"></i>  VNW-ESP - Nơi tụ họp các nhân tài đất Thái Nguyên
+            </div>
+
+            <!-- Chỉ hiển thị 2 mục: THÀNH TÍCH (Top Thái Nguyên) và HOẠT ĐỘNG -->
+            <div class="stats">
+                <div class="stat-item">
+                    <i class="fas fa-trophy"></i>
+                    <h4>THÀNH TÍCH</h4>
+                    <p>🏆 Top Thái Nguyên 🏆<br>Khẳng định vị thế tại đấu trường tỉnh Thái Nguyên</p>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h4>HOẠT ĐỘNG</h4>
+                    <p>🔥 Những lúc có quân đoàn chiến 🔥<br>phải hết mình chiến đấu để dành lấy top 1 Thái Nguyên</p>
+                </div>
+            </div>
+
+            <!-- Nút Facebook với link mới -->
+            <div style="text-align: center; margin-top: 1.2rem;">
+                <a href="https://www.facebook.com/share/1AxYZjQjdh/" target="_blank" rel="noopener noreferrer" class="fb-btn">
+                    <i class="fab fa-facebook-f"></i> Liên hệ qua Facebook
+                    <i class="fas fa-external-link-alt" style="font-size: 0.9rem;"></i>
+                </a>
+                <p style="margin-top: 16px; font-size: 0.85rem;"><i class="fas fa-envelope"></i> Quản trị viên: Nhấn vào nút để nhắn xin gia nhập ngay!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Thẻ thông tin yêu cầu + quân đoàn thân thiện -->
+    <div class="card animate delay-2" style="margin-bottom: 1rem;">
+        <div class="card-inner" style="padding: 1.2rem 2rem;">
+            <div class="info-row">
+                <div class="info-tag"><i class="fas fa-check-circle"></i> Yêu cầu:vô nhóm message+cày 1000₫ mỗi tuần</div>
+                <div class="info-tag"><i class="fas fa-shield-alt"></i> Quân đoàn thân thiện và  kỷ luật</div>
+            </div>
+            <div style="text-align: center; margin-top: 15px; font-size: 0.85rem; background: rgba(255,100,0,0.1); border-radius: 60px; padding: 6px 12px;">
+                <i class="fas fa-fire"></i> Chỉ huy triệu tập – toàn đội sẵn sàng xông pha mọi giải đấu <i class="fas fa-fire"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-note animate delay-3">
+        <i class="fas fa-fire"></i> VNW-ESP · TOP THÁI NGUYÊN <i class="fas fa-fire"></i> <br>
+        © 2025 Quân đoàn Free Fire đất Thái Nguyên. Chiến đấu bất kể thời gian!
+    </div>
+</div>
+
+<script>
+    // Xử lý sao chép ID quân đoàn
+    const copyBtn = document.getElementById('copyIdBtn');
+    const idValue = '3095952179';
+
+    copyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(idValue).then(() => {
+            const originalText = copyBtn.innerHTML;
+            copyBtn.innerHTML = '<i class="fas fa-check"></i> Đã sao chép!';
+            setTimeout(() => {
+                copyBtn.innerHTML = originalText;
+            }, 2000);
+        }).catch(err => {
+            console.error('Lỗi sao chép: ', err);
+            alert('Không thể sao chép tự động, bạn có thể copy thủ công ID: ' + idValue);
+        });
+    });
+
+    // Đảm bảo link Facebook mở tab mới an toàn
+    const fbLink = document.querySelector('.fb-btn');
+    if (fbLink) {
+        fbLink.setAttribute('target', '_blank');
+        fbLink.setAttribute('rel', 'noopener noreferrer');
+    }
+
+    // Hiệu ứng hover cho id
+    const idNumberDiv = document.getElementById('guildIdDisplay');
+    if(idNumberDiv) {
+        idNumberDiv.style.transition = "text-shadow 0.2s";
+        idNumberDiv.addEventListener('mouseenter', () => {
+            idNumberDiv.style.textShadow = "0 0 12px #ff8c42, 0 0 8px #ffb347";
+        });
+        idNumberDiv.addEventListener('mouseleave', () => {
+            idNumberDiv.style.textShadow = "0 0 5px #ff7b2c";
+        });
+    }
+</script>
+</body>
+</html>
